@@ -1,39 +1,40 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import React from "react";
+//import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Drawer } from "expo-router/drawer";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+// app/_layout.tsx
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
+export default function Layout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Drawer screenOptions={{ headerShown: true }} initialRouteName="index">
+      <Drawer.Screen name="index" options={{ title: "MENU" }} />
+      <Drawer.Screen
+        name="ContextualMenuScreen"
+        options={{ title: "💬 Menú Contextual" }}
+      />
+      <Drawer.Screen name="DropdownScreen" options={{ title: "⬇️ Dropdown" }} />
+      <Drawer.Screen
+        name="(tabsB)"
+        options={{ title: "🗂OTRO Menú TABS" }}
+      />
+      <Drawer.Screen name="OverflowMenuScreen" options={{ title: "⋮ Menú Desbordamiento" }} />
+      <Drawer.Screen name="ActionSheetScreen" options={{ title: "📄 Action Sheet" }} />
+      <Drawer.Screen name="FABMenuScreen" options={{ title: "➕ FAB Menu o Speed Dial" }} />
+      <Drawer.Screen name="NestedMenuScreen" options={{ title: "📁 Menú Anidado" }} />
+
+      <Drawer.Screen
+        name="(tabsC)"
+        options={{ title: "🗂 Menú de Pestañas TABS-C" }}
+      />
+      <Drawer.Screen
+        name="+not-found"
+        options={{
+          drawerItemStyle: { display: "none" },
+          title: "404"
+        }}
+      />
+
+    </Drawer>
   );
 }
