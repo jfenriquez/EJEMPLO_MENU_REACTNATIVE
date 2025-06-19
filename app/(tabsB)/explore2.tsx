@@ -1,3 +1,5 @@
+/////TODO:ESTO ES UN COMPONENT, NO UN SCREEN ERROR
+
 import {
   StyleSheet,
   Image,
@@ -39,8 +41,17 @@ type IconProps = {
 } & MotiProps;
 
 function Icon({ name, ...rest }: IconProps) {
-  const IconComponent = motify(icons[name])();
+  /* const IconComponent = motify(icons[name])();
 
+  return <IconComponent size={35} {...rest} />; */
+  const IconDef = icons[name];
+
+  if (!IconDef) {
+    console.warn(`Icon "${name}" not found in lucide-react-native.`);
+    return null;
+  }
+
+  const IconComponent = motify(IconDef)();
   return <IconComponent size={35} {...rest} />;
 }
 
